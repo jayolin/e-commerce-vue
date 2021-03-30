@@ -51,18 +51,19 @@ export default new Vuex.Store({
         }
     },
     actions: {
-       async getProducts({state, commit}){
+       async getProducts({state, commit}, currency = state.currency){
             try{
                 const response = await http.post(`
                     products{
                         id,
                         title,
                         image_url,
-                        price(currency:${state.currency})
+                        price(currency:${currency})
                     }
                 `);
                 const { data } = await response.json();
                 commit('setProducts', data.products);
+                commit('setCurrency', currency);
                 return data.products
 
 

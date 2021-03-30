@@ -26,7 +26,7 @@
                             <small>YOUR CART</small>
                         </div>
                     </div>
-                    <div>
+                    <div class="flex items-center">
                         <select
                                 name="currency"
                                 v-model="currency"
@@ -40,6 +40,7 @@
                                 {{currency}}
                             </option>
                         </select>
+                        <small class="ml-2" v-if="loading">Loading...</small>
                     </div>
                     <div class="grid gap-2">
                         <cart-item
@@ -69,6 +70,11 @@
     export default {
         name: "Cart",
         components: {CartItem},
+        data(){
+            return {
+                loading: false
+            }
+        },
         props: {
             show: {
                 required: true
@@ -92,9 +98,11 @@
                 get: function(){
                     return this.$store.getters.getCurrency
                 },
-                set: function(value){
-                    this.$store.commit('setCurrency', value);
-                    this.$store.dispatch('getProducts')
+                set: async function(value){
+                    //this.$store.commit('setCurrency', value);
+                    this.loading = true;
+                    await this.$store.dispatch('getProducts', value);
+                    this.loading = false
                 }
             },
             productMap() {

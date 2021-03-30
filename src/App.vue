@@ -8,7 +8,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-secondary">
+    <div v-if="!loading" class="bg-secondary">
       <div class="container">
         <div class="grid grid-cols-2 lg:grid-cols-3 gap-8">
           <product
@@ -18,6 +18,9 @@
           />
         </div>
       </div>
+    </div>
+    <div class="text-center p-6" v-else>
+      <h1>Loading...</h1>
     </div>
     <cart
       :show.sync="showCart"
@@ -33,6 +36,11 @@
   export default {
     name: 'App',
     components: {Cart, Product},
+    data(){
+      return {
+        loading: false
+      }
+    },
     computed: {
       ...mapGetters({
         products: "getProducts"
@@ -47,10 +55,12 @@
       }
     },
     async beforeMount() {
+      this.loading = true;
       await Promise.all([
         this.$store.dispatch('getProducts'),
         this.$store.dispatch('getCurrencies')
-      ])
+      ]);
+      this.loading = false
 
     }
   }
