@@ -1,0 +1,25 @@
+@import "../variables";
+
+.bg-primary{
+  background: $primary-color
+}
+
+.text-secondary{
+  color: $secondary-color
+}
+
+.text-white{
+  color: #FFF;
+}
+
+.bg-white{
+  background: white;
+}
+
+.bg-secondary{
+  background: $secondary-color;
+}
+
+.bg-accent{
+  background: $accent-color;
+}
